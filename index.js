@@ -3,6 +3,7 @@ var os = require('os');
 var notifier = require('node-notifier');
 
 var DEFAULT_LOGO = path.join(__dirname, 'logo.png');
+const isEnabled = !!process.env.ENABLE_NOTIFIER;
 
 var WebpackNotifierPlugin = module.exports = function(options) {
     this.options = options || {};
@@ -41,7 +42,7 @@ WebpackNotifierPlugin.prototype.compileMessage = function(stats) {
 
 WebpackNotifierPlugin.prototype.compilationDone = function(stats) {
     var msg = this.compileMessage(stats);
-    if (msg) {
+    if (msg && isEnabled) {
         var contentImage = ('contentImage' in this.options) ?
             this.options.contentImage : DEFAULT_LOGO;
 
